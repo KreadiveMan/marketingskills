@@ -25,6 +25,17 @@ Use the MCP for reporting and the CLI when you need to create or change somethin
 | `SNAPCHAT_ACCESS_TOKEN` | Short-lived token (optional if refresh vars are set) |
 | `SNAPCHAT_CLIENT_ID`, `SNAPCHAT_CLIENT_SECRET`, `SNAPCHAT_REFRESH_TOKEN` | The CLI refreshes automatically and retries once on HTTP 401 |
 | `SNAPCHAT_AD_ACCOUNT_ID` | Default ad account (or pass `--ad-account-id`) |
+| `SNAPCHAT_REDIRECT_URI` | Optional; defaults to `https://localhost/callback` |
+
+### Getting the refresh token (one time, on your own machine)
+
+Use a separate OAuth app for the CLI. An app whose redirect URI points at a hosted connector sends the code to that service, not to you.
+
+1. Add the redirect URI `https://localhost/callback` to the app (or any HTTPS URL you own; it only has to match exactly).
+2. Export `SNAPCHAT_CLIENT_ID` and `SNAPCHAT_CLIENT_SECRET`. The secret is read from the environment only, never from a flag.
+3. Run `node tools/clis/snapchat-ads.js auth url` and open the printed URL. Approve access.
+4. The browser lands on a page that "can't be reached". That is expected: the code is in the address bar.
+5. Within a few minutes, run `node tools/clis/snapchat-ads.js auth exchange --code "<full address-bar URL>" --env-file .env`. This writes `SNAPCHAT_REFRESH_TOKEN` to `.env` with mode 600 and prints no secret. Keep `.env` out of git.
 
 ## API rules that shape every call
 

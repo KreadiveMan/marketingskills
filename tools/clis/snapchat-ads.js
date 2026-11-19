@@ -7,6 +7,9 @@
 const rawArgs = process.argv.slice(2)
 const BASE_URL = 'https://adsapi.snapchat.com/v1'
 const TOKEN_URL = 'https://accounts.snapchat.com/login/oauth2/access_token'
+const AUTHORIZE_URL = 'https://accounts.snapchat.com/login/oauth2/authorize'
+const DEFAULT_REDIRECT = 'https://localhost/callback'
+const DEFAULT_SCOPE = 'snapchat-marketing-api'
 let TOKEN = process.env.SNAPCHAT_ACCESS_TOKEN
 const AD_ACCOUNT_ID = process.env.SNAPCHAT_AD_ACCOUNT_ID
 const REFRESH = {
@@ -34,7 +37,7 @@ function parseArgs(list) {
 const args = parseArgs(rawArgs)
 const [cmd, sub] = args._
 
-if (!TOKEN && !canRefresh() && rawArgs.length > 0 && !args['dry-run']) {
+if (!TOKEN && !canRefresh() && rawArgs.length > 0 && !args['dry-run'] && cmd !== 'auth') {
   console.error(JSON.stringify({ error: 'SNAPCHAT_ACCESS_TOKEN (or SNAPCHAT_CLIENT_ID + SNAPCHAT_CLIENT_SECRET + SNAPCHAT_REFRESH_TOKEN) environment variable required' }))
   process.exit(1)
 }
@@ -285,6 +288,59 @@ async function entityCommand(level, parentFlag, parentRequired, build) {
 async function main() {
   let result
   switch (cmd) {
+    case 'auth': {
+      const clientId = args['client-id'] || REFRESH.client_id
+      const redirectUri = args['redirect-uri'] || process.env.SNAPCHAT_REDIRECT_URI || DEFAULT_REDIRECT
+      if (sub === 'url') {
+        if (!clientId) { result = { error: 'SNAPCHAT_CLIENT_ID env or --client-id required' }; break }
+        const params = new URLSearchParams({ client_id: clientId, redirect_uri: redirectUri, response_type: 'code', scope: args.scope || DEFAULT_SCOPE })
+        if (args.state) params.set('state', args.state)
+        result = {
+          url: `${AUTHORIZE_URL}?${params}`,
+          redirect_uri: redirectUri,
+          next: 'Open the url, approve, then copy the whole address-bar URL (or just the code) and run: auth exchange --code "<it>" --env-file .env. The code is single-use and expires within minutes.',
+        }
+      } else if (sub === 'exchange') {
+        const clientSecret = REFRESH.client_secret
+        if (!clientId || !clientSecret) { result = { error: 'SNAPCHAT_CLIENT_ID and SNAPCHAT_CLIENT_SECRET environment variables required (the secret is never read from a flag)' }; break }
+        if (!args.code || args.code === true) { result = { error: '--code required (the code, or the full redirected URL containing ?code=)' }; break }
+        let code = args.code
+        if (/^https?:\/\//.test(code)) {
+          const parsed = new URL(code)
+          if (parsed.searchParams.get('error')) { result = { error: `Authorization denied: ${parsed.searchParams.get('error')}` }; break }
+          code = parsed.searchParams.get('code')
+          if (!code) { result = { error: 'No code= parameter in that URL' }; break }
+        }
+        const form = { grant_type: 'authorization_code', code, client_id: clientId, client_secret: clientSecret, redirect_uri: redirectUri }
+        if (args['dry-run']) { result = { _dry_run: true, method: 'POST', url: TOKEN_URL, body: { ...form, code: '***', client_secret: '***' } }; break }
+        const res = await fetch(TOKEN_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(form).toString(),
+          signal: requestSignal(),
+        })
+        const data = await res.json().catch(() => ({}))
+        if (!res.ok || !data.refresh_token) {
+          process.exitCode = 1
+          result = { error: `Code exchange failed (HTTP ${res.status})`, reason: data.error_description || data.error || 'no refresh_token returned', hint: 'Codes are single-use and short-lived, and redirect_uri must match the app exactly. Run auth url again for a fresh code.' }
+          break
+        }
+        if (args['env-file'] && args['env-file'] !== true) {
+          const fs = require('node:fs')
+          const file = args['env-file']
+          const lines = fs.existsSync(file) ? fs.readFileSync(file, 'utf8').split('\n').filter(line => !/^SNAPCHAT_REFRESH_TOKEN=/.test(line)) : []
+          while (lines.length && lines[lines.length - 1] === '') lines.pop()
+          lines.push(`SNAPCHAT_REFRESH_TOKEN=${data.refresh_token}`, '')
+          fs.writeFileSync(file, lines.join('\n'), { mode: 0o600 })
+          fs.chmodSync(file, 0o600)
+          result = { saved: file, variable: 'SNAPCHAT_REFRESH_TOKEN', access_token_expires_in: data.expires_in, scope: data.scope, note: 'Refresh token written to the file only (mode 600). Keep that file out of git.' }
+        } else {
+          result = { refresh_token: data.refresh_token, access_token_expires_in: data.expires_in, scope: data.scope, note: 'Store refresh_token as SNAPCHAT_REFRESH_TOKEN. Use --env-file .env to write it to a file instead of the terminal.' }
+        }
+      } else result = { error: 'Unknown auth subcommand. Use: url, exchange' }
+      break
+    }
+
     case 'token':
       if (sub !== 'refresh') { result = { error: 'Unknown token subcommand. Use: refresh' }; break }
       if (!canRefresh()) { result = { error: 'SNAPCHAT_CLIENT_ID, SNAPCHAT_CLIENT_SECRET and SNAPCHAT_REFRESH_TOKEN required' }; break }
@@ -384,6 +440,7 @@ async function main() {
         error: 'Unknown command',
         notes: 'Money flags take account currency (--daily-budget 50) or micros (--daily-budget-micro 50000000). New entities default to PAUSED. activate/delete need --confirm. --dry-run previews any request.',
         usage: {
+          auth: 'auth url [--redirect-uri https://localhost/callback] | auth exchange --code <code or full redirected URL> [--env-file .env]',
           token: 'token refresh',
           me: 'me',
           organizations: 'organizations list',

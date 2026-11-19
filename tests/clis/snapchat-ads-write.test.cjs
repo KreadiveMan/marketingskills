@@ -93,3 +93,42 @@ test('creative headline over 34 characters is rejected locally', () => {
   const result = run(['creatives', 'create', '--name', 'C', '--headline', 'x'.repeat(35)])
   assert.equal(result.status, 1)
 })
+
+const authEnv = { SNAPCHAT_ACCESS_TOKEN: '', SNAPCHAT_CLIENT_ID: 'cid', SNAPCHAT_CLIENT_SECRET: 'csecret' }
+
+test('auth url builds the authorize link without needing any token', () => {
+  const result = run(['auth', 'url'], undefined, authEnv)
+  assert.equal(result.status, 0, result.stderr)
+  const url = new URL(JSON.parse(result.stdout).url)
+  assert.equal(url.origin + url.pathname, 'https://accounts.snapchat.com/login/oauth2/authorize')
+  assert.equal(url.searchParams.get('client_id'), 'cid')
+  assert.equal(url.searchParams.get('redirect_uri'), 'https://localhost/callback')
+  assert.equal(url.searchParams.get('response_type'), 'code')
+  assert.equal(url.searchParams.get('scope'), 'snapchat-marketing-api')
+})
+
+test('auth exchange accepts the full redirected URL and writes the refresh token to a 600 env file', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snap-env-'))
+  const envFile = path.join(dir, '.env')
+  fs.writeFileSync(envFile, 'OTHER=1\nSNAPCHAT_REFRESH_TOKEN=old\n')
+  try {
+    const result = run(['auth', 'exchange', '--code', 'https://localhost/callback?code=abc123&state=x', '--env-file', envFile], `
+      assert.equal(url, 'https://accounts.snapchat.com/login/oauth2/access_token');
+      const form = new URLSearchParams(opts.body);
+      assert.equal(form.get('grant_type'), 'authorization_code'); assert.equal(form.get('code'), 'abc123');
+      assert.equal(form.get('client_secret'), 'csecret'); assert.equal(form.get('redirect_uri'), 'https://localhost/callback');
+      return new Response(JSON.stringify({ access_token: 'a', refresh_token: 'r-new', expires_in: 1800 }), { status: 200 });`, authEnv)
+    assert.equal(result.status, 0, result.stderr)
+    assert.doesNotMatch(result.stdout, /r-new/)
+    assert.equal(fs.readFileSync(envFile, 'utf8'), 'OTHER=1\nSNAPCHAT_REFRESH_TOKEN=r-new\n')
+    assert.equal(fs.statSync(envFile).mode & 0o777, 0o600)
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('auth exchange failure exits nonzero with a hint', () => {
+  const result = run(['auth', 'exchange', '--code', 'used'], `return new Response(JSON.stringify({ error: 'invalid_grant' }), { status: 400 })`, authEnv)
+  assert.equal(result.status, 1)
+  assert.equal(JSON.parse(result.stdout).reason, 'invalid_grant')
+})
