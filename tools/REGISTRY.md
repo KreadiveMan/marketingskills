@@ -110,6 +110,7 @@ Anyone — including tool makers and partners — may contribute content that na
 | meta-ads | Ads | ✓ | ✓ | [✓](clis/meta-ads.js) | ✓ | [meta-ads.md](integrations/meta-ads.md) |
 | linkedin-ads | Ads | ✓ | - | [✓](clis/linkedin-ads.js) | - | [linkedin-ads.md](integrations/linkedin-ads.md) |
 | tiktok-ads | Ads | ✓ | - | [✓](clis/tiktok-ads.js) | ✓ | [tiktok-ads.md](integrations/tiktok-ads.md) |
+| snapchat-ads | Ads | ✓ | ✓ | [✓](clis/snapchat-ads.js) | - | [snapchat-ads.md](integrations/snapchat-ads.md) |
 | zapier | Automation | ✓ | ✓ | [✓](clis/zapier.js) | ✓ | [zapier.md](integrations/zapier.md) |
 | hotjar | CRO | ✓ | - | [✓](clis/hotjar.js) | - | [hotjar.md](integrations/hotjar.md) |
 | optimizely | A/B Testing | ✓ | ✓ | [✓](clis/optimizely.js) | ✓ | [optimizely.md](integrations/optimizely.md) |
@@ -273,6 +274,7 @@ Paid advertising platforms and campaign management.
 | **meta-ads** | Demand gen, visual products, B2C | ✓ |
 | **linkedin-ads** | B2B, job title targeting | - |
 | **tiktok-ads** | Younger demographics, video | - |
+| **snapchat-ads** | Gen Z / GCC reach, vertical video, Story ads | ✓ (official, read-only) |
 
 **Agent recommendation**: Google Ads for search intent. Meta for demand generation. LinkedIn for B2B.
 

@@ -91,6 +91,7 @@ Every CLI reads credentials from environment variables:
 | `segment` | `SEGMENT_WRITE_KEY` (tracking), `SEGMENT_ACCESS_TOKEN` (profile) |
 | `semrush` | `SEMRUSH_API_KEY` |
 | `sendgrid` | `SENDGRID_API_KEY` |
+| `snapchat-ads` | `SNAPCHAT_ACCESS_TOKEN` or `SNAPCHAT_CLIENT_ID` + `SNAPCHAT_CLIENT_SECRET` + `SNAPCHAT_REFRESH_TOKEN`; `SNAPCHAT_AD_ACCOUNT_ID` |
 | `tiktok-ads` | `TIKTOK_ACCESS_TOKEN`, `TIKTOK_ADVERTISER_ID` |
 | `tolt` | `TOLT_API_KEY` |
 | `truelist` | `TRUELIST_API_KEY` |
@@ -208,6 +209,7 @@ DOMAINS=$(rewardful affiliates list | jq -r '.data[].email')
 | `segment.js` | Analytics | [Segment](https://segment.com) |
 | `semrush.js` | SEO | [SEMrush](https://semrush.com) |
 | `sendgrid.js` | Email | [SendGrid](https://sendgrid.com) |
+| `snapchat-ads.js` | Ads | [Snapchat Ads](https://ads.snapchat.com) |
 | `snov.js` | Email Outreach | [Snov.io](https://snov.io) |
 | `similarweb.js` | Competitive Intelligence | [Similarweb](https://similarweb.com) |
 | `supermetrics.js` | Data Aggregation | [Supermetrics](https://supermetrics.com) |
