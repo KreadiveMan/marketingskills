@@ -1,14 +1,45 @@
 # Modern Meta Playbook (Andromeda Era)
 
-Meta launched the **Andromeda** algorithm in 2025, which fundamentally changed Meta ads. The old playbook (interest stacking, polished video creative, single-winner scaling) underperforms. The new playbook:
+**What Andromeda is, from Meta's own post** ([Meta Engineering, 2024-12-02](https://engineering.fb.com/2024/12/02/production-engineering/meta-andromeda-advantage-automation-next-gen-personalized-ads-retrieval-engine/)):
 
-## Creative volume is the constraint (statics > polished video)
-- Andromeda is "a hungry panda" — it needs constant fresh creative or it fatigues
-- **Statics often outperform video in 2026** because:
-  - Meta's algorithm has a bias toward statics — it can show more statics per session per user, so they're cheaper to deliver
-  - Static creative is 10x cheaper and faster to produce than video, enabling the volume Andromeda needs
-  - Even top advertisers running 17+ VSLs report that down-and-dirty native statics often beat 2.5-month-production VSLs
-- **Dedicate 1 hour per week** to producing fresh creatives for your winning offer. Volume > polish.
+- It is the **retrieval** stage, the first step of a multi-stage system: it narrows tens of millions of eligible ads to a few thousand candidates. Larger **ranking** models then predict value and pick the final set, and the auction picks the winner. Retrieval decides which ads get considered; ranking (GEM, see "Ad sequencing" below) decides which one shows.
+- It organizes **ads** into a hierarchical index so it can scale to the growth in ad creatives that generative AI tools cause. The post describes indexing ads, not users.
+- On diversity, it says only this: increased ad diversity can improve people's experience with ads and drive better advertiser outcomes. The reported gains are +6% retrieval recall and +8% ads quality on selected segments. Treat both as vendor-reported.
+- It does **not** give a creative quota, a minimum number of ads, a similarity threshold, or a cold-start rule for new ads. Anything here that goes beyond the post is labeled practitioner observation or hypothesis.
+
+The old playbook (interest stacking, polished video creative, single-winner scaling) underperforms. The new playbook:
+
+## Creative diversity, not creative volume
+
+Andromeda can retrieve more ads, so more ads *can* be considered. That doesn't make ad count the strategy. Thirty variants of one angle are one reason to buy with thirty skins. Diversity means each ad gives a **different reason to care**:
+
+| Angle | What the ad does |
+|---|---|
+| Problem | Opens on the pain the buyer has now |
+| Outcome | Shows the result they want |
+| Belief shift | Corrects a wrong belief that stops them |
+| Proof | Social proof, demo, or a customer's experience |
+| Objection | Answers the reason they haven't bought |
+
+- **Start from the customer, not the variant count.** List their problems, desired outcomes, wrong beliefs, and objections first, then build one concept per item. The **ad-creative** skill's angle-matrix turns reviews and comments into these angles.
+- **A concept is a distinct message, not a distinct file.** Changing only the hook, headline, or visual on the same argument is a variant. Variants are useful for localizing a proven concept, but they don't add diversity (see "AI variant farming" below).
+- **Statics are still the cheapest way to test concepts.** They're roughly 10x cheaper and faster to make than video, so use them to test *new angles* quickly. Practitioners also report statics often beating long-produced VSLs in 2026. That's an observation, not a Meta rule.
+- **Refresh with new angles on a cadence.** For example, an hour a week on the winning offer. A new angle earns a slot; a reskin of the current winner usually doesn't.
+
+## New ads, fake winners, and incrementality
+
+Each new ad starts with no history, so delivery has to learn who responds to it. Two consequences are worth planning for. Both are **hypotheses** from practitioner experience; Meta doesn't document them.
+
+- **Early results can be flattering.** Many practitioners see new ads start strong and then fade as spend scales or time passes. One likely reason is that early delivery leans on warm and hot audiences (site visitors, engagers, past buyers), who convert more easily. Test it: exclude warm and hot audiences, or break results out by new versus existing customers. If the ad is weak from day one without them, it was riding warm demand.
+- **New ads can take credit instead of creating sales.** When many new ads launch on the same structure, they compete for the same pool your stable ads were already reaching. The report then shows the old ad "fatiguing" and the new ad "winning", but the business may have the same total sales with the attribution moved. That is a **fake winner**.
+- **The loop it creates:** launch more ads → find "winners" → old ads look tired → new ads scale to colder audiences → results drop → launch more ads. If total sales and blended MER aren't rising with ad count, check this before producing more.
+
+How to tell a real winner from a fake one:
+
+- Judge on **business totals**, not ad-level ROAS: total revenue, new-customer revenue, blended MER, and margin after ad spend. A real winner moves these. A fake winner only reshuffles in-platform attribution.
+- Compare **before and after a launch wave** at account level, with the same budget and a comparable window. A winner that lifted nothing at account level redistributed credit.
+- For decisions that matter, run a **holdout or conversion lift test** (the **attribution** skill covers incrementality methods). Use the **ad-creative** skill's test readout to check whether an ad-level gap is real at all.
+- Don't kill a stable ad only because a new ad's reported results rose in the same week. Check whether combined results actually grew.
 
 ## Creative IS the targeting (broad audience + specific creative)
 - The old playbook: stack interests, narrow the audience, hope to find the right buyer
@@ -30,7 +61,7 @@ Meta launched the **Andromeda** algorithm in 2025, which fundamentally changed M
 - The output should read essentially the same with subtle relevance shifts for the target
 - Apply in sequence: body copy → headlines → creative
 - Drop all variants in a CBO, let Meta's AI allocate spend
-- **Limit:** variants this close count as one concept to Andromeda. Use them to localize a proven winner. Testing volume has to come from new concepts, which are what reach new people (see "Creator ads at volume" below).
+- **Limit:** variants this close count as one concept. Use them to localize a proven winner. New reach comes from new angles (see "Creative diversity, not creative volume" above), not from more variants.
 
 ## Zombie campaigns
 - After running a CBO, Meta will give 80% of variants no spend

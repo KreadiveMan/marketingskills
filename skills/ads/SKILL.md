@@ -2,7 +2,7 @@
 name: ads
 description: "When the user wants to plan, run, or fix paid ads on Google, Meta, and LinkedIn, or asks a judgement call on them: are ads worth it, which channel or budget split, why CPA rose, kill or keep a campaign. End with facts, hypotheses, and missing data; label unavailable inputs MISSING instead of estimating. For ad copy, see ad-creative. For pixels and CAPI, see conversion-tracking. For landing pages, see cro."
 metadata:
-  version: 2.7.5
+  version: 2.7.6
 ---
 
 # Paid Ads
@@ -180,7 +180,7 @@ Trying to make up for weak creative with hyper-precise targeting. If your creati
 
 ## Modern Meta playbook (Andromeda era — 2026+)
 
-Meta's Andromeda algorithm (2025) made creative volume and variety the main lever: target broadly and let specific creative do the targeting, ship many cheap static concepts, and make ads look native rather than polished. The full playbook (creative volume, creative as targeting, identity keywords, AI variants, zombie campaigns, native-looking ads, running creator ads as distinct concepts with a quality optimization event, and ad sequencing) is in [references/meta-andromeda-playbook.md](references/meta-andromeda-playbook.md).
+Andromeda is Meta's ad **retrieval** stage (Meta Engineering, December 2024): it picks the candidates that the ranking models then score. More ads can be considered, but the lever is **creative diversity, not volume**: each ad should give a different reason to buy (problem, outcome, belief shift, proof, objection), not reskin one angle. Target broadly and let distinct creative do the targeting. Judge "winners" on business totals and incrementality, because new ads can take attribution from stable ones without adding sales. The full playbook (what Meta's post does and doesn't say, diversity vs volume, fake winners, creative as targeting, identity keywords, AI variants, zombie campaigns, native-looking ads, creator ads as distinct concepts, and ad sequencing) is in [references/meta-andromeda-playbook.md](references/meta-andromeda-playbook.md).
 
 ---
 
