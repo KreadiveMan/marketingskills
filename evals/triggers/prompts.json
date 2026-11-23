@@ -1346,6 +1346,31 @@
       "kind": "none",
       "expect": [],
       "prompt": "Refactor this Python function to use a dictionary instead of a long if/elif chain."
+    },
+    {
+      "id": "meta-ads-employee-1",
+      "kind": "direct",
+      "expect": [
+        "meta-ads-employee"
+      ],
+      "prompt": "Act as my Meta ads person end to end: figure out who our buyers are, plan the Facebook and Instagram strategy, brief the creatives, write the copy, set up the ad sets and create the campaign for my skincare store."
+    },
+    {
+      "id": "meta-ads-employee-2",
+      "kind": "indirect",
+      "expect": [
+        "meta-ads-employee",
+        "ads"
+      ],
+      "prompt": "We sell frozen meals in Cairo with cash on delivery. I want someone to take it from understanding our margins and customers all the way to having ads ready to go live on Instagram."
+    },
+    {
+      "id": "meta-ads-employee-3",
+      "kind": "near-miss",
+      "expect": [
+        "ad-creative"
+      ],
+      "prompt": "Give me ten more Facebook primary text variations for our winning protein bar ad."
     }
   ]
 }

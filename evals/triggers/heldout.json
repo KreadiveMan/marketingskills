@@ -897,6 +897,15 @@
       "kind": "none",
       "expect": [],
       "prompt": "Walk me through completing the square for x squared plus 6x plus 2 equals zero."
+    },
+    {
+      "id": "meta-ads-employee-heldout-1",
+      "kind": "indirect",
+      "expect": [
+        "meta-ads-employee",
+        "ads"
+      ],
+      "prompt": "I need an AI teammate who learns my restaurant chain's business, works out the right customers and the moments they order, then plans and builds our Instagram ads and stages them for me to approve."
     }
   ]
 }

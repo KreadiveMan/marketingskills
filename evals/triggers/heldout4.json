@@ -905,6 +905,15 @@
       "kind": "none",
       "expect": [],
       "prompt": "My apartment has a sunny south-facing window and a dim hallway. I bought a rosemary plant and a fern. Which plant should get the window, and is putting the rosemary in the hallway likely to work?"
+    },
+    {
+      "id": "meta-ads-employee-heldout4-1",
+      "kind": "indirect",
+      "expect": [
+        "meta-ads-employee",
+        "ads"
+      ],
+      "prompt": "Be my Meta growth hire for this coffee subscription: work out break-even, the customers worth chasing and the ones that cost us money, then plan, write and build the Instagram campaign for my approval."
     }
   ]
 }

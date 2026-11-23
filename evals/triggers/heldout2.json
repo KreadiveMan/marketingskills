@@ -904,6 +904,15 @@
       "kind": "none",
       "expect": [],
       "prompt": "Can you draft a simple household chore rota for Alex and Sam? They need to alternate dishes daily, vacuum once a week, and take the bins out every Thursday night."
+    },
+    {
+      "id": "meta-ads-employee-heldout2-1",
+      "kind": "indirect",
+      "expect": [
+        "meta-ads-employee",
+        "ads"
+      ],
+      "prompt": "Our bakery has a Meta ad account sitting unused. Can you be the one who learns how we make money, decides who we should reach and why they'd buy now, then hands me finished ads and ad sets ready to switch on?"
     }
   ]
 }

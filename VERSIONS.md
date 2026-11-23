@@ -35,6 +35,7 @@ Current versions of all skills. Agents can compare against local versions to che
 | marketing-ideas | 2.0.5 | 2026-11-09 |
 | marketing-loops | 1.8.4 | 2026-11-09 |
 | marketing-plan | 1.2.5 | 2026-11-09 |
+| meta-ads-employee | 1.0.0 | 2026-11-23 |
 | marketing-psychology | 2.0.3 | 2026-11-09 |
 | offers | 1.0.6 | 2026-11-09 |
 | onboarding | 2.0.5 | 2026-11-09 |
@@ -59,6 +60,10 @@ Current versions of all skills. Agents can compare against local versions to che
 | video | 2.4.3 | 2026-11-09 |
 
 ## Recent Changes
+
+### 2.15.0 (2026-11-23)
+
+- **meta-ads-employee** (new, 1.0.0): one agent runs Meta ads end to end from a business brief, in six gated stages that write to `.agents/meta-ads/<brand>/`: business brain with unit economics and break-even CPA/ROAS (COD refusals and returns included), audience intel (ICP, DMU, anti-ICP, trigger events, intent signals, each mapped to a Meta lever), Meta strategy (test/scale structure, budget math, test roadmap, kill/keep/scale rules in multiples of target CPA), creative plan (concept matrix, static and motion briefs), build sheet (copy, ad set specs, naming, UTMs, launch payload), and staging in the account through a connected Meta ads tool with everything paused until the user approves activation. Autopilot runs stages 1 to 5 and still stops before launch. Routes depth to product-marketing, customer-research, ads, ad-creative, copywriting, offers, and conversion-tracking.
 
 ### 2.14.12 (2026-11-11)
 

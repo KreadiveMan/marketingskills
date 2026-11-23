@@ -1,0 +1,60 @@
+{
+  "skill_name": "meta-ads-employee",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I run a Cairo fashion store, mostly cash on delivery. AOV is 1,200 EGP, COGS 480, shipping 70, COD fee 20, about 20% of orders get refused at the door. Build me the whole Meta setup: who to target, strategy, creatives, copy, ad sets, and create the campaign.",
+      "expected_output": "Should start at Stage 1 and compute contribution per order, break-even CPA and ROAS, and adjust for the 20% refusal rate on placed orders, showing the arithmetic. Should flag missing inputs (return rate, budget, tracking, account access) as MISSING with assumptions. Should not jump to creating the campaign; should stop at Gate 1 in guided mode. Should name COD refusers as an anti-ICP with a countermeasure. Should state that anything created in the account will be paused until approval.",
+      "assertions": [
+        "Computes contribution per order and break-even CPA/ROAS with visible arithmetic",
+        "Adjusts targets for COD refusal rate",
+        "Labels missing inputs as MISSING with stated assumptions",
+        "Stops at a gate before strategy or launch",
+        "Mentions COD refusers as anti-ICP with a Meta countermeasure",
+        "States campaigns will be created paused and need approval to activate"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Run it through on autopilot: we're a healthy meal-prep delivery brand in Riyadh, 299 SAR weekly plan, 55% gross margin, 10,000 SAR/month for Meta. Give me ICP, DMU, anti-ICP, triggers, intent signals, then the strategy, creative briefs including motion, ad copy in Saudi Arabic, and the ad sets.",
+      "expected_output": "Should run Stages 1 to 5 without stopping, then stop before launch. Should produce ICP segments as situations, a DMU table (including payer/approver), anti-ICP with signals and countermeasures, trigger events (Ramadan, new year, paydays, gym season) with Meta levers, intent signals as custom audiences with windows. Strategy with test/scale split, budget math against target CPA, test roadmap. Concept matrix, static and motion briefs with hook table and 9:16/4:5 specs. Copy in Saudi dialect that avoids personal health attributes. Ad set specs with Advantage+ audience, exclusions, placements. Lists all assumptions at the end.",
+      "assertions": [
+        "Runs stages 1 to 5 and stops before staging or activating anything",
+        "ICP segments are situations, not only demographics",
+        "Includes a DMU table with payer or approver role",
+        "Anti-ICP rows each have a detection signal and a countermeasure",
+        "Trigger events and intent signals each map to a Meta lever",
+        "Strategy includes budget math derived from target CPA",
+        "Includes at least one motion brief with a 0-3s hook table",
+        "Ad copy avoids personal health attribute claims",
+        "Ad set specs include exclusions and Advantage+ audience setting",
+        "Lists assumptions at the end"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "The build sheet looks good, go ahead.",
+      "expected_output": "Should treat 'go ahead' as approval to stage the build sheet, not to activate spend. Should run the pre-flight checklist, create objects paused (or as a draft), read them back, show structure, budgets, targeting, and previews, then ask a specific activation question naming objects and budget. Should not activate or publish without that explicit confirmation.",
+      "assertions": [
+        "Runs pre-flight checks before creating objects",
+        "Creates objects paused or as a draft",
+        "Reads back created objects and logs IDs",
+        "Asks a specific activation question naming objects and budget",
+        "Does not activate or publish without explicit activation approval"
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Just write me 5 Facebook ad headlines for my coffee shop's new iced latte.",
+      "expected_output": "This is a copy-only request; the skill should route to ad-creative rather than run the six-stage pipeline, or answer narrowly without forcing business intake.",
+      "assertions": [
+        "Does not force the full six-stage pipeline for a copy-only request",
+        "Points to or uses ad-creative for headline variants"
+      ],
+      "files": []
+    }
+  ]
+}

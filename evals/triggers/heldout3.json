@@ -900,6 +900,15 @@
       "kind": "none",
       "expect": [],
       "prompt": "Should I knit a scarf with wool or cotton for a friend who lives in a cold, rainy climate? I already own 300 grams of each, and she wants something warm that doesn't stretch out quickly."
+    },
+    {
+      "id": "meta-ads-employee-heldout3-1",
+      "kind": "indirect",
+      "expect": [
+        "meta-ads-employee",
+        "ads"
+      ],
+      "prompt": "Take my online perfume shop from zero to a paused Facebook campaign: buyer profile, who signs off on the purchase, who to avoid, creative ideas with some animated ones, the copy and the targeting."
     }
   ]
 }

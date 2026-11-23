@@ -109,6 +109,7 @@ See each skill's **Related Skills** section for the full dependency map.
 | [marketing-loops](skills/marketing-loops/) | When the user wants a recurring marketing job an AI agent runs on a cadence or trigger, or asks what a weekly or daily... |
 | [marketing-plan](skills/marketing-plan/) | When the user wants a full marketing or go-to-market plan for a client, an advised company, or their own product, or... |
 | [marketing-psychology](skills/marketing-psychology/) | When the user wants to apply psychology to marketing, or asks why buyers behave or value things as they do, or whether... |
+| [meta-ads-employee](skills/meta-ads-employee/) | When the user wants one agent to run Meta ads end to end from a business brief: learn the business and its margins,... |
 | [offers](skills/offers/) | When the user wants to design or improve the offer itself, or asks why it isn't selling or how to add urgency honestly:... |
 | [onboarding](skills/onboarding/) | When the user wants better onboarding and activation, or asks why new users don't stick or what the first session... |
 | [paywalls](skills/paywalls/) | When the user wants to create or improve in-app paywalls and upgrade moments, or asks when or how hard to ask free... |
@@ -350,6 +351,7 @@ You can also invoke skills directly:
 - `ads` - Google, Meta, LinkedIn ad campaigns
 - `events` - Webinars, conferences, sponsorships, speaking
 - `ad-creative` - Bulk ad creative generation and iteration
+- `meta-ads-employee` - End-to-end Meta ads operator: business, ICP/DMU, strategy, creative, build, paused launch
 - `social` - Social media scheduling and strategy
 
 ### Measurement & Testing
